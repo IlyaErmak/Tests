@@ -28,6 +28,6 @@ describe('PostsService', () => {
     const foundPost = postsService.find(createdPost.id);
 
     expect(foundPost).toEqual(createdPost);
-    expect(postsService.find('999')).toBeUndefined();
+    expect(postsService.find('0')).toBeUndefined();
   });
 });
