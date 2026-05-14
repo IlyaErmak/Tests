@@ -22,14 +22,12 @@ describe('PostsService', () => {
   });
 
   it('should find a post', () => {
-    const createdPost = postsService.create(post);
+    const firstPost = postsService.create({ text: 'First post' });
+    const secondPost = postsService.create({ text: 'Second post' });
 
-    const foundPost = postsService.find(createdPost.id);
+    const foundPost = postsService.find(secondPost.id);
 
-    expect(foundPost).toEqual({
-      text: createdPost.text,
-      id: createdPost.id,
-      date: createdPost.date,
-    });
+    expect(foundPost).toEqual(secondPost);
+    expect(foundPost).not.toEqual(firstPost);
   });
 });
