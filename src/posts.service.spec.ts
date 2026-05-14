@@ -3,19 +3,19 @@ import { Post, PostsService } from './posts.service';
 describe('PostsService', () => {
   let postsService: PostsService;
 
-  const post: Omit<Post, 'id' | 'date'> = {
-    text: 'Mocked post',
-  };
-
   beforeEach(() => {
     postsService = new PostsService();
   });
 
   it('should add a new post', () => {
+    const post: Omit<Post, 'id' | 'date'> = {
+      text: 'Mocked post',
+    };
+
     const createdPost = postsService.create(post);
 
     expect(createdPost).toEqual({
-      text: 'Mocked post',
+      text: post.text,
       id: '1',
       date: expect.any(String),
     });
@@ -24,10 +24,16 @@ describe('PostsService', () => {
   it('should find a post', () => {
     const firstPost = postsService.create({ text: 'First post' });
     const secondPost = postsService.create({ text: 'Second post' });
+    const thirdPost = postsService.create({ text: 'Third post' });
 
-    const foundPost = postsService.find(secondPost.id);
+    expect(postsService.find(firstPost.id)).toEqual(firstPost);
+    expect(postsService.find(secondPost.id)).toEqual(secondPost);
+    expect(postsService.find(thirdPost.id)).toEqual(thirdPost);
 
-    expect(foundPost).toEqual(secondPost);
-    expect(foundPost).not.toEqual(firstPost);
+    expect(postsService.find(secondPost.id)).toMatchObject({
+      id: secondPost.id,
+      text: secondPost.text,
+      date: secondPost.date,
+    });
   });
 });
