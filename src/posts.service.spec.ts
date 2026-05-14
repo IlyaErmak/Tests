@@ -21,7 +21,7 @@ describe('PostsService', () => {
     });
   });
 
-  it('should find a post', () => {
+  it('should find the correct post by id', () => {
     const firstPost = postsService.create({ text: 'First post' });
     const secondPost = postsService.create({ text: 'Second post' });
     const thirdPost = postsService.create({ text: 'Third post' });
@@ -30,10 +30,8 @@ describe('PostsService', () => {
     expect(postsService.find(secondPost.id)).toEqual(secondPost);
     expect(postsService.find(thirdPost.id)).toEqual(thirdPost);
 
-    expect(postsService.find(secondPost.id)).toMatchObject({
-      id: secondPost.id,
-      text: secondPost.text,
-      date: secondPost.date,
-    });
+    expect(postsService.find(secondPost.id)?.id).toBe(secondPost.id);
+    expect(postsService.find(secondPost.id)?.text).toBe(secondPost.text);
+    expect(postsService.find(secondPost.id)).not.toEqual(firstPost);
   });
 });
